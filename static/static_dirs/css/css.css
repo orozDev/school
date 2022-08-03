@@ -1,0 +1,11 @@
+.overflow-auto{
+    overflow: auto !important;
+}
+
+.panel{
+    position: fixed;
+    bottom: 100px;
+    right: 40px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4);
+}

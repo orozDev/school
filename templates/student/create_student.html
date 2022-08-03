@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}| Новый ученик{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <h4 class="text-center">Новый ученик</h4>
+        <form action="{% url 'create_student' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <h6><label for="id_name">{{ form.name.label }} <span class="text-danger">*</span></label></h6>
+                {{ form.name }}
+                {% if form.name.errors %}<div class="alert alert-danger mt-3"><strong>{{ form.name.errors }}</strong></div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <h6><label for="id_email">{{ form.email.label }} <span class="text-danger">*</span></label></h6>
+                {{ form.email }}
+                {% if form.email.errors %}<div class="alert alert-danger mt-3"><strong>{{ form.email.errors }}</strong></div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <h6><label for="id_birthday">{{ form.birthday.label }} <span class="text-danger">*</span></label></h6>
+                {{ form.birthday }}
+                {% if form.birthday.errors %}<div class="alert alert-danger mt-3"><strong>{{ form.birthday.errors }}</strong></div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <h6><label for="id_address">{{ form.address.label }} <span class="text-danger">*</span></label></h6>
+                {{ form.address }}
+                {% if form.address.errors %}<div class="alert alert-danger mt-3"><strong>{{ form.address.errors }}</strong></div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <h6><label for="id_gender">{{ form.gender.label }} <span class="text-danger">*</span></label></h6>
+                {{ form.gender }}
+                {% if form.gender.errors %}<div class="alert alert-danger mt-3"><strong>{{ form.gender.errors }}</strong></div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <h6><label for="id_photo">{{ form.photo.label }}</label></h6>
+                {{ form.photo }}
+                {% if form.photo.errors %}<div class="alert alert-danger mt-3"><strong>{{ form.photo.errors }}</strong></div>{% endif %}
+            </div>
+            <div class="mb-3">
+                <input type="hidden" name="group" value="{{ request.user.group.id }}">
+                <input type="submit" value="Добавить" class="btn btn-primary w-100">
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

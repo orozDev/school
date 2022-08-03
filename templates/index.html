@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-12"><h4>Школа {{ group.set_school.all.0.title }}</h4></div>
+            <div class="col-md-6 col-12 text-end">
+                <a href="{% url 'send_message' %}" class="btn btn-primary">Отправить сообщение <i class="fa-solid fa-envelope"></i></a>
+                <a href="{% url 'create_student' %}" class="btn btn-success">Добавить ученика <i class="fa-solid fa-circle-plus"></i></a>
+            </div>
+        </div>
+        
+        <div class="overflow-auto">
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="7" ><h4 class="text-center">{{ group.title }}</h4></th>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="text-center">ID</th>
+                        <th scope="col" class="text-center">ФИО</th>
+                        <th scope="col" class="text-center">Почта</th>
+                        <th scope="col" class="text-center">Пол</th>
+                        <th scope="col" class="text-center">Дата рождения</th>
+                        <th scope="col" class="text-center">Подтверждение по почте</th>
+                        <th scope="col" class="text-center">Дейстивие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in group.students.all %}
+                        <tr>
+                            <th class="text-center">{{ student.id }}</th>
+                            <td class="text-center"><a href="{% url 'item_student' pk=student.id %}">{{ student.name }}</a></td>
+                            <td class="text-center">{{ student.email }}</td>
+                            <td class="text-center">{{ student.get_gender_display }}</td>
+                            <td class="text-center">{{ student.birthday }}</td>
+                            <td class="text-center">
+                                {% if student.is_active %}
+                                    <img src="{% static 'admin/img/icon-yes.svg' %}" alt="">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icon-no.svg' %}" alt="">
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete_student' pk=student.id %}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="{% url 'update_student' pk=student.id %}" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{% url 'send_message' %}?id={{ student.id }}" class="btn btn-primary"><i class="fa-solid fa-envelope"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <th class="text-center" colspan="7">В таблице данных нету
+
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock content %}

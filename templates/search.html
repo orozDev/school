@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}| {{ student_name }}{% endblock title %}
+
+{% block content %}
+    
+    <div class="container">
+        <h4>Школа {{ request.user.group.set_school.all.0.title }}</h4>
+        <h3 class="text-center">Поиск по зопросу: {{ student_name }}</h3>
+        <div class="overflow-auto">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="7" ><h4 class="text-center">{{ request.user.group.title }}</h4></th>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="text-center">ID</th>
+                        <th scope="col" class="text-center">ФИО</th>
+                        <th scope="col" class="text-center">Почта</th>
+                        <th scope="col" class="text-center">Пол</th>
+                        <th scope="col" class="text-center">Дата рождения</th>
+                        <th scope="col" class="text-center">Подтверждение по почте</th>
+                        <th scope="col" class="text-center">Дейстивие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <th class="text-center">{{ student.id }}</th>
+                            <td class="text-center">{{ student.name }}</td>
+                            <td class="text-center">{{ student.email }}</td>
+                            <td class="text-center">{{ student.get_gender_display }}</td>
+                            <td class="text-center">{{ student.birthday }}</td>
+                            <td class="text-center">
+                                {% if student.is_active %}
+                                    <img src="{% static 'admin/img/icon-yes.svg' %}" alt="">
+                                {% else %}
+                                    <img src="{% static 'admin/img/icon-no.svg' %}" alt="">
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'delete_student' pk=student.id %}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                                <a href="" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{% url 'send_message' %}?id={{ student.id }}" class="btn btn-primary"><i class="fa-solid fa-envelope"></i></a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <th class="text-center" colspan="7">Ничего не найдено!</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+       
+    </div>
+
+{% endblock content %}

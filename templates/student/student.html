@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}| {{ student.name }}{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 mb-4"><h4 class="text-center">{{ student.name }}</h4></div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                {% if student.photo %}
+                    <img src="{{ student.photo.url }}" class="w-100" alt="">
+                {% else %}
+                    <img src="{% static 'img/unknown_student.png' %}" class="w-100" alt="">
+                {% endif %}
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <p><b>ФИО:</b> {{ student.name }}</p>
+                <p><b>Элетронная почта:</b> {{ student.email }}</p>
+                <p><b>Дата рождения:</b> {{ student.bithday }}</p>
+                <p><b>Школа:</b> {{ student.group.set_school.all.0.title }}</p>
+                <p><b>Класс:</b> {{ student.group.title }}</p>
+                <p><b>Адрес:</b> {{ student.address }}</p>
+                <p><b>Пол:</b> {{ student.get_gender_display  }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <a href="{% url 'delete_student' pk=student.id %}" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+        <a href="" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+        <a href="" class="btn btn-primary"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+
+{% endblock content %}
